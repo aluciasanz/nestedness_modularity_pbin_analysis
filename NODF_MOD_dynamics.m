@@ -1,41 +1,21 @@
 % jan 2023 - ALSANZ nestednes and modularity over time
-
 clear 
 clc
-
-%% add path
-PATH='~/Documents/ML_Meyer/JBoring/BitMat-master';
+%% add path set working directory
+PATH='~/Documents/ML_Meyer/JBorin/BiMat-master'; %write the path for BiMat-master
 mkdir(strcat(PATH,'/myfolder'))   
 GEN_PATH = genpath(PATH);
 addpath(GEN_PATH);
-
-% addpath '~/Documents/ML_Meyer/JBorin/BiMat-master'
-% addpath '~/Documents/ML_Meyer/JBorin/BiMat-master/main'
-% addpath '~/Documents/ML_Meyer/JBorin/BiMat-master/nestedness'
-% addpath '~/Documents/ML_Meyer/JBorin/BiMat-master/statistics'
-% addpath '~/Documents/ML_Meyer/JBorin/BiMat-master/base'
-% addpath '~/Documents/ML_Meyer/JBorin/BiMat-master/community'
-% 
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/community'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/draw'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/dataIO'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/base'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/examples'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/statistics'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/nestedness'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/main'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/community'
-% addpath '/home/agarcia337/Documents/ML_Meyer/JBorin/BiMat-master/nestedness'
+cd(strcat(PATH,'/myfolder'))
 
 %% Import DATA
-matrix_raw=readtable('~/Documents/ML_Meyer/JBorin/PBIN/22-06-09-matrix-21d_bis.csv');
-hostID = matrix_raw.Properties.VariableNames(2:end);
-phageID = matrix_raw.Phage;
-matrix=table2array(matrix_raw(:,2:end));
+matrix_raw=readtable(strcat(cd,'/Data/22-06-09-matrix-21d_bis.csv')); % PBIN located in Data
+hostID = matrix_raw.Properties.VariableNames(2:end); % Hosts are columns
+phageID = matrix_raw.Phage; % Phage are rows
+matrix=table2array(matrix_raw(:,2:end)); % convert table to matrix
 
 %% Create the bipartite object
-% Matrix=importdata('~/Documents/ML_Meyer/JBorin/PBIN/22-06-09-matrix-21d-matrixonly.txt');
-bp = Bipartite(matrix');
+bp = Bipartite(matrix'); % hosts are rows, phage are columns
 bp.row_labels =  hostID;
 bp.col_labels = phageID;
 
@@ -90,7 +70,7 @@ for j=1:(length(day_vec)-2)
     
     sub_bp.nestedness.Detect();
     nes(j)=sub_bp.nestedness.N;   
-    ntc=Nestedness.NTC(sub_bp.matrix);
+    ntc=Nestedness.NTC(sub_bp.matrix); % Using a different algorithm to calculate nestedness
     
     
 %     figure(j);
@@ -133,14 +113,23 @@ for j=1:(length(day_vec)-2)
 end
 %% 3 day window
 figure(101);plot(mod,'ko-','LineWidth',2); title('Modularity');xlabel('Day')
-xticks([1:5])
-xticklabels({'3-9','6-12','9-15','12-18','15-21'})
+xticks([1:5]);
+times={'3-9','6-12','9-15','12-18','15-21'};
+xticklabels(times)
 hold on;
 plot(nes,'ro-','LineWidth',2); title('NODF');xlabel('Day')
-xticks([1:5])
-xticklabels({'3-9','6-12','9-15','12-18','15-21'})
-
-
+xticks([1:5]);
+xticklabels(times)
+legend('LPbrim','NODF');
+title('3 day window analysis')
+%% save calculated modularity and nestedeness values over time into a csv
+filename='nodf_mod_dynamics.csv';
+fp = fopen(filename);
+fprintf(fp,'time(days),lpbrim,nodf\n');
+for i=1:length(mod)
+    fprintf(fp,strcat([char(times(i)),',',num2str(mod(i)),',',num2str(nes(i)),'\n']));
+end    
+fclose(fp);
 %% 2 Day window
 figure(101);plot(mod,'ko-','LineWidth',2); title('Modularity');xlabel('Day')
 xticks([1:6])
