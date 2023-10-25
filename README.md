@@ -1,4 +1,6 @@
-[![DOI](https://sandbox.zenodo.org/badge/613553321.svg)](https://sandbox.zenodo.org/badge/latestdoi/613553321)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8277861.svg)](https://doi.org/10.5281/zenodo.8277861)
+
+
 # Analysis of modularity and nestedness using bimat
 Scripts **_NODF_MOD_dynamics.m_** and **_LPBRIM_analysis.m_** were used to analyze nestedness and modularity of $\phi 21$ phage and _E. coli_ bacteria coevolutionary infection dynamics for the publication "Rapid bacteria-phage coevolution drives the emergence of multi-scale networks" 
 # (REQUIRED) Install lastest version of <a href="https://bimat.github.io/">Bimat</a> from source
@@ -20,3 +22,5 @@ matrix_raw=readtable(strcat(cd,'/Data/pbin_to_analyze.csv')); % PBIN located in 
 Here the matrix data is contained in the folder *Data*
 
 ## 3. Output figures are saved in the folder *Figures*
+
+DOI: 10.5281/zenodo.8277861 
