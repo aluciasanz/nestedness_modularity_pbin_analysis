@@ -7,4 +7,5 @@ authors:
 title: "Analysis of Nestedness and Modularity of PBIN"
 version: 1.1
 date-released: 2023-10-25
+doi: "10.5281/zenodo.8277860"
 url: "https://github.com/aluciasanz/nestedness_modularity_pbin_analysis"
