@@ -22,5 +22,3 @@ matrix_raw=readtable(strcat(cd,'/Data/pbin_to_analyze.csv')); % PBIN located in 
 Here the matrix data is contained in the folder *Data*
 
 ## 3. Output figures are saved in the folder *Figures*
-
-DOI: 10.5281/zenodo.8277861 
